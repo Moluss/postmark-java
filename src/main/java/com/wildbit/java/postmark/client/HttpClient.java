@@ -1,13 +1,11 @@
 package com.wildbit.java.postmark.client;
 
-import org.glassfish.jersey.client.ClientProperties;
+import com.sun.jersey.api.client.Client;
+import com.sun.jersey.api.client.WebResource;
+import com.sun.jersey.core.util.MultivaluedMapImpl;
 
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.Entity;
-import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.MultivaluedMap;
-import javax.ws.rs.core.Response;
+import javax.ws.rs.core.MediaType;
+import java.util.Map;
 
 /**
  * Base HTTP client class solely responsible for making
@@ -27,18 +25,18 @@ public class HttpClient {
         }
     }
 
-    private final MultivaluedMap<String,Object> headers;
-    private final Client client;
+    private Map<String,Object> headers;
+    private Client client;
 
-    public HttpClient(MultivaluedMap<String,Object> headers, int connectTimeoutSeconds, int readTimeoutSeconds) {
+    public HttpClient(Map<String,Object > headers, int connectTimeoutSeconds, int readTimeoutSeconds) {
         this(headers);
         setConnectTimeoutSeconds(connectTimeoutSeconds);
         setReadTimeoutSeconds(readTimeoutSeconds);
     }
 
-    public HttpClient(MultivaluedMap<String,Object> headers) {
+    public HttpClient(Map<String,Object> headers) {
         this.headers = headers;
-        this.client = ClientBuilder.newClient();
+        this.client = Client.create();
         setReadTimeoutSeconds(DEFAULTS.READ_TIMEOUT_SECONDS.value);
         setConnectTimeoutSeconds(DEFAULTS.CONNECT_TIMEOUT_SECONDS.value);
     }
@@ -53,28 +51,35 @@ public class HttpClient {
      * @return response from HTTP request
      */
     public ClientResponse execute(REQUEST_TYPES requestType, String url, String data) {
-        Response response;
-        WebTarget target = client.target(url);
+        com.sun.jersey.api.client.ClientResponse response;
+
+        WebResource resource = client.resource(url);
+        WebResource.Builder builder = resource.getRequestBuilder();
+        MultivaluedMapImpl values = new MultivaluedMapImpl();
+
+        for (Map.Entry<String, Object> entry : headers.entrySet()) {
+            builder.header(entry.getKey(),entry.getValue());
+        }
 
         switch (requestType) {
             case POST:
-                response = target.request().headers(headers).post(Entity.json(data), Response.class);
+                response = builder.accept(MediaType.APPLICATION_JSON_TYPE).post(com.sun.jersey.api.client.ClientResponse.class, data);
                 break;
 
             case GET:
-                response = target.request().headers(headers).get(Response.class);
+                response = builder.accept(MediaType.APPLICATION_JSON_TYPE).get(com.sun.jersey.api.client.ClientResponse.class);
                 break;
 
             case PUT:
-                response = target.request().headers(headers).put(Entity.json(data), Response.class);
+                response = builder.accept(MediaType.APPLICATION_JSON_TYPE).put(com.sun.jersey.api.client.ClientResponse.class, data);
                 break;
 
             case DELETE:
-                response = target.request().headers(headers).delete(Response.class);
+                response = builder.accept(MediaType.APPLICATION_JSON_TYPE).delete(com.sun.jersey.api.client.ClientResponse.class);
                 break;
 
             default:
-                response = target.request().headers(headers).get(Response.class);
+                response = resource.accept(MediaType.APPLICATION_JSON_TYPE).get(com.sun.jersey.api.client.ClientResponse.class);
                 break;
 
         }
@@ -98,11 +103,11 @@ public class HttpClient {
     // Setters and Getters
 
     public void setConnectTimeoutSeconds(int connectTimeoutSeconds) {
-        client.property(ClientProperties.CONNECT_TIMEOUT, connectTimeoutSeconds * 1000);
+        client.setConnectTimeout(connectTimeoutSeconds * 1000);
     }
 
     public void setReadTimeoutSeconds(int readTimeoutSeconds) {
-        client.property(ClientProperties.READ_TIMEOUT, readTimeoutSeconds * 1000);
+       client.setReadTimeout(readTimeoutSeconds * 1000);
     }
 
     /**
@@ -120,8 +125,8 @@ public class HttpClient {
      * @param response HTTP request response result
      * @return simplified HTTP request response
      */
-    private ClientResponse prettifyResponse(Response response) {
-        return new ClientResponse(response.getStatus(), response.readEntity(String.class));
+    private ClientResponse prettifyResponse(com.sun.jersey.api.client.ClientResponse response) {
+        return new ClientResponse(response.getStatus(), response.getEntity(String.class));
     }
 
     /**

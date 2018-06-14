@@ -4,8 +4,8 @@ import com.wildbit.java.postmark.client.AccountApiClient;
 import com.wildbit.java.postmark.client.ApiClient;
 import org.apache.log4j.Logger;
 
-import javax.ws.rs.core.MultivaluedHashMap;
 import java.io.InputStream;
+import java.util.HashMap;
 import java.util.Properties;
 
 /**
@@ -33,11 +33,11 @@ public class Postmark {
      */
     public static class DefaultHeaders {
 
-        public static MultivaluedHashMap<String, String> headers() {
-            MultivaluedHashMap<String, String> headerValues = new MultivaluedHashMap<>();
-            headerValues.add("User-Agent", "Postmark Java Library: " + libraryVersion());
-            headerValues.add("Accept", "application/json");
-            headerValues.add("Content-Type", "application/json");
+        public static HashMap<String, String> headers() {
+            HashMap<String, String> headerValues = new HashMap<>();
+            headerValues.put("User-Agent", "Postmark Java Library: " + libraryVersion());
+            headerValues.put("Accept", "application/json");
+            headerValues.put("Content-Type", "application/json");
             return headerValues;
         }
 
@@ -79,9 +79,9 @@ public class Postmark {
 
     private static Logger log = Logger.getLogger(Postmark.class);
 
-    private static MultivaluedHashMap getHeadersWithAuth(DEFAULTS authType, String apiToken) {
-        MultivaluedHashMap headers = DefaultHeaders.headers();
-        headers.add(authType.value, apiToken);
+    private static HashMap getHeadersWithAuth(DEFAULTS authType, String apiToken) {
+        HashMap headers = DefaultHeaders.headers();
+        headers.put(authType.value, apiToken);
         return headers;
     }
 }

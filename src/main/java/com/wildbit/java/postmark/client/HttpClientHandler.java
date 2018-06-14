@@ -5,8 +5,8 @@ import com.wildbit.java.postmark.client.exception.*;
 import org.apache.log4j.Level;
 import org.apache.log4j.spi.RootLogger;
 
-import javax.ws.rs.core.MultivaluedHashMap;
 import java.io.IOException;
+import java.util.HashMap;
 
 /**
  * Client class acts as handler between HTTP requests handler class (HttpClient) and class which provides access to all endpoints to call.
@@ -18,12 +18,12 @@ public class HttpClientHandler {
     protected final DataHandler dataHandler;
     private boolean secureConnection = true;
 
-    protected HttpClientHandler(MultivaluedHashMap<String,Object> headers) {
+    protected HttpClientHandler(HashMap<String,Object> headers) {
         this.dataHandler = new DataHandler(false);
         httpClient = new HttpClient(headers);
     }
 
-    protected HttpClientHandler(MultivaluedHashMap<String,Object> headers, boolean secureConnection) {
+    protected HttpClientHandler(HashMap<String,Object> headers, boolean secureConnection) {
         this(headers);
         this.secureConnection = secureConnection;
     }
