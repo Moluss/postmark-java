@@ -13,7 +13,7 @@ import java.util.Map;
  * client requests and returning simple HTTP response.
  */
 public class HttpClient {
-
+    
     // HTTP request connection timeouts
     public enum DEFAULTS {
         CONNECT_TIMEOUT_SECONDS(5),
@@ -26,7 +26,7 @@ public class HttpClient {
         }
     }
 
-    private MultivaluedMapImpl headers;
+    private Map<String, Object> headers;
 
     private Client client;
 
@@ -37,7 +37,7 @@ public class HttpClient {
     }
 
     public HttpClient(MultivaluedMap headers) {
-        this.headers = (MultivaluedMapImpl) headers;
+        this.headers = headers;
         this.client = Client.create();
         setReadTimeoutSeconds(DEFAULTS.READ_TIMEOUT_SECONDS.value);
         setConnectTimeoutSeconds(DEFAULTS.CONNECT_TIMEOUT_SECONDS.value);
@@ -58,9 +58,8 @@ public class HttpClient {
         WebResource resource = client.resource(url);
         WebResource.Builder builder = resource.getRequestBuilder();
 
-
-        for (MultivaluedMapImpl.Entry entry : headers.entrySet()) {
-            builder.header(entry.getKey().toString(),entry.getValue());
+        for (Map.Entry entry : headers.entrySet()) {
+           builder.header(entry.getKey().toString(), entry.getValue());
         }
 
         switch (requestType) {

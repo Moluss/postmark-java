@@ -36,10 +36,10 @@ public class Postmark {
     public static class DefaultHeaders {
 
         public static MultivaluedMap<String, String> headers() {
-            MultivaluedMap<String, String> headerValues = new MultivaluedMapImpl();
-            headerValues.add("User-Agent", "Postmark Java Library: " + libraryVersion());
-            headerValues.add("Accept", "application/json");
-            headerValues.add("Content-Type", "application/json");
+            MultivaluedMap headerValues = new MultivaluedMapImpl();
+            headerValues.put("User-Agent", "Postmark Java Library: " + libraryVersion());
+            headerValues.put("Accept", "application/json");
+            headerValues.put("Content-Type", "application/json");
             return headerValues;
         }
 
