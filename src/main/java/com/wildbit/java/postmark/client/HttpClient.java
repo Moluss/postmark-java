@@ -5,6 +5,7 @@ import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.core.util.MultivaluedMapImpl;
 
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.MultivaluedMap;
 import java.util.Map;
 
 /**
@@ -25,17 +26,18 @@ public class HttpClient {
         }
     }
 
-    private Map<String,Object> headers;
+    private MultivaluedMapImpl headers;
+
     private Client client;
 
-    public HttpClient(Map<String,Object > headers, int connectTimeoutSeconds, int readTimeoutSeconds) {
+    public HttpClient(MultivaluedMapImpl headers, int connectTimeoutSeconds, int readTimeoutSeconds) {
         this(headers);
         setConnectTimeoutSeconds(connectTimeoutSeconds);
         setReadTimeoutSeconds(readTimeoutSeconds);
     }
 
-    public HttpClient(Map<String,Object> headers) {
-        this.headers = headers;
+    public HttpClient(MultivaluedMap headers) {
+        this.headers = (MultivaluedMapImpl) headers;
         this.client = Client.create();
         setReadTimeoutSeconds(DEFAULTS.READ_TIMEOUT_SECONDS.value);
         setConnectTimeoutSeconds(DEFAULTS.CONNECT_TIMEOUT_SECONDS.value);
@@ -55,10 +57,10 @@ public class HttpClient {
 
         WebResource resource = client.resource(url);
         WebResource.Builder builder = resource.getRequestBuilder();
-        MultivaluedMapImpl values = new MultivaluedMapImpl();
 
-        for (Map.Entry<String, Object> entry : headers.entrySet()) {
-            builder.header(entry.getKey(),entry.getValue());
+
+        for (MultivaluedMapImpl.Entry entry : headers.entrySet()) {
+            builder.header(entry.getKey().toString(),entry.getValue());
         }
 
         switch (requestType) {

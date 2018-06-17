@@ -1,7 +1,7 @@
 package com.wildbit.java.postmark.client;
 
 
-import java.util.HashMap;
+import javax.ws.rs.core.MultivaluedMap;
 
 /**
  * Class that handles (on very high level) API requests. All Postmark public endpoints which
@@ -15,12 +15,12 @@ public class BaseApiClient extends HttpClientHandler {
         return baseUrl + endpoint;
     }
 
-    public BaseApiClient(String baseUrl, HashMap<String,Object> headers) {
+    public BaseApiClient(String baseUrl, MultivaluedMap<String,Object> headers) {
         super(headers);
         this.baseUrl = baseUrl;
     }
 
-    public BaseApiClient(String baseUrl, HashMap<String,Object> headers, boolean secureConnection) {
+    public BaseApiClient(String baseUrl, MultivaluedMap<String,Object> headers, boolean secureConnection) {
         this(baseUrl, headers);
         setSecureConnection(secureConnection);
     }
