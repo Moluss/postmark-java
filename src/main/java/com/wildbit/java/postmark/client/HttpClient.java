@@ -13,7 +13,7 @@ import java.util.Map;
  * client requests and returning simple HTTP response.
  */
 public class HttpClient {
-    
+
     // HTTP request connection timeouts
     public enum DEFAULTS {
         CONNECT_TIMEOUT_SECONDS(5),
