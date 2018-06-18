@@ -25,7 +25,7 @@ public class HttpClient {
         }
     }
 
-    private Map<String, Object> headers;
+    private MultivaluedMap<String, Object> headers;
 
     private Client client;
 
