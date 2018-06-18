@@ -1,16 +1,13 @@
 package unit.client;
 
 import com.wildbit.java.postmark.Postmark;
-import com.wildbit.java.postmark.client.ApiClient;
 import com.wildbit.java.postmark.client.BaseApiClient;
 import com.wildbit.java.postmark.client.HttpClient;
 import org.junit.jupiter.api.Test;
 
 import javax.ws.rs.core.MultivaluedMap;
-import java.util.HashMap;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /**
  * Created by bash on 11/13/17.

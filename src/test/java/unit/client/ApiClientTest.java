@@ -6,7 +6,6 @@ import com.wildbit.java.postmark.client.ApiClient;
 import org.junit.jupiter.api.Test;
 
 import javax.ws.rs.core.MultivaluedMap;
-import java.util.HashMap;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 

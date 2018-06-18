@@ -7,7 +7,6 @@ import org.apache.log4j.Logger;
 
 import javax.ws.rs.core.MultivaluedMap;
 import java.io.InputStream;
-import java.util.HashMap;
 import java.util.Properties;
 
 /**
@@ -35,7 +34,7 @@ public class Postmark {
      */
     public static class DefaultHeaders {
 
-        public static MultivaluedMap<String, String> headers() {
+        public static MultivaluedMap<String,Object> headers() {
             MultivaluedMap headerValues = new MultivaluedMapImpl();
             headerValues.put("User-Agent", "Postmark Java Library: " + libraryVersion());
             headerValues.put("Accept", "application/json");
@@ -81,7 +80,7 @@ public class Postmark {
 
     private static Logger log = Logger.getLogger(Postmark.class);
 
-    private static MultivaluedMap getHeadersWithAuth(DEFAULTS authType, String apiToken) {
+    private static MultivaluedMap<String,Object> getHeadersWithAuth(DEFAULTS authType, String apiToken) {
         MultivaluedMap headers = DefaultHeaders.headers();
         headers.put(authType.value, apiToken);
         return headers;

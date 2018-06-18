@@ -2,7 +2,6 @@ package com.wildbit.java.postmark.client;
 
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.WebResource;
-import com.sun.jersey.core.util.MultivaluedMapImpl;
 
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
@@ -30,7 +29,7 @@ public class HttpClient {
 
     private Client client;
 
-    public HttpClient(MultivaluedMapImpl headers, int connectTimeoutSeconds, int readTimeoutSeconds) {
+    public HttpClient(MultivaluedMap<String,Object> headers, int connectTimeoutSeconds, int readTimeoutSeconds) {
         this(headers);
         setConnectTimeoutSeconds(connectTimeoutSeconds);
         setReadTimeoutSeconds(readTimeoutSeconds);
