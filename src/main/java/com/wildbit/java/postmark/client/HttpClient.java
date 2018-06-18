@@ -35,7 +35,7 @@ public class HttpClient {
         setReadTimeoutSeconds(readTimeoutSeconds);
     }
 
-    public HttpClient(MultivaluedMap headers) {
+    public HttpClient(MultivaluedMap<String,Object> headers) {
         this.headers = headers;
         this.client = Client.create();
         setReadTimeoutSeconds(DEFAULTS.READ_TIMEOUT_SECONDS.value);
@@ -56,10 +56,7 @@ public class HttpClient {
 
         WebResource resource = client.resource(url);
         WebResource.Builder builder = resource.getRequestBuilder();
-
-        for (Map.Entry entry : headers.entrySet()) {
-           builder.header(entry.getKey().toString(), entry.getValue());
-        }
+        for (Map.Entry entry : headers.entrySet()) { builder.header(entry.getKey().toString(), entry.getValue()); }
 
         switch (requestType) {
             case POST:
@@ -159,5 +156,4 @@ public class HttpClient {
         PUT,
         DELETE
     }
-
 }
