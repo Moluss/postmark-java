@@ -35,7 +35,7 @@ public class HttpClient {
         setReadTimeoutSeconds(readTimeoutSeconds);
     }
 
-    public HttpClient(MultivaluedMap<String,Object> headers) {
+    public HttpClient(MultivaluedMap headers) {
         this.headers = headers;
         this.client = Client.create();
         setReadTimeoutSeconds(DEFAULTS.READ_TIMEOUT_SECONDS.value);
