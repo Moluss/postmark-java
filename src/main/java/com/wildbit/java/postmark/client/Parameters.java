@@ -3,7 +3,6 @@ package com.wildbit.java.postmark.client;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 
 /**
  * Helper class for creating parameters to pass to API requests. It makes sure proper format of parameters

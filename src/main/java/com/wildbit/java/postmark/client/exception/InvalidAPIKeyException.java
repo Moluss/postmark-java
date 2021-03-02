@@ -1,6 +1,5 @@
 package com.wildbit.java.postmark.client.exception;
 
-import com.wildbit.java.postmark.Postmark;
 import com.wildbit.java.postmark.client.data.model.PostmarkError;
 
 /**

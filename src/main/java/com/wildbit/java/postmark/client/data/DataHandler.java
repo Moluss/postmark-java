@@ -3,7 +3,6 @@ package com.wildbit.java.postmark.client.data;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.*;
-import com.wildbit.java.postmark.client.data.model.PostmarkError;
 
 import java.io.IOException;
 
